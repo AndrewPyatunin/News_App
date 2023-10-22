@@ -2,13 +2,13 @@ package com.example.newsapp.domain
 
 interface Repository {
 
-    fun getNewsFromTopHeadlines(): NewsFromTopHeadlines
+    fun getNewsFromTopHeadlines(url: String): NewsFromTopHeadlines
 
-    fun getNewsFromFavourite(): NewsFromDb
+    fun getNewsFromFavourite(): List<NewsFromDb>
 
-    fun getNewsFromSources(): NewsFromSources
+    fun getNewsFromSources(url: String): NewsFromSources
 
-    fun addNewsToFavourite()
+    fun addNewsToFavourite(newsFromDb: NewsFromDb)
 
-    fun deleteNewsFromFavourite()
+    fun deleteNewsFromFavourite(news: NewsFromDb)
 }
