@@ -5,13 +5,15 @@ import com.example.newsapp.domain.NewsFromDb
 import com.example.newsapp.domain.NewsFromSources
 import com.example.newsapp.domain.NewsFromTopHeadlines
 import com.example.newsapp.domain.Repository
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 object RepositoryImpl : Repository {
-    private val context = Application()
-    private val db = NewsDatabase.getInstance(context)
-    private val PATH = "https://newsapi.org/v2/top-headlines"
+    lateinit var application: Application
+    private val db by lazy { NewsDatabase.getInstance(application) }
+    private val compositeDisposable = CompositeDisposable()
 
-    override fun getNewsFromTopHeadlines(url: String): NewsFromTopHeadlines {
+    override fun getNewsFromTopHeadlines(url: String): Single<NewsFromTopHeadlines> {
         return ApiFactory.apiService.getDataFrom(url)
     }
 
@@ -19,7 +21,7 @@ object RepositoryImpl : Repository {
         return db.newsDao().getFavouriteNews()
     }
 
-    override fun getNewsFromSources(url: String): NewsFromSources {
+    override fun getNewsFromSources(url: String): Single<NewsFromSources> {
         return ApiFactory.apiService.getDataFromSomeSources(url)
     }
 
@@ -28,6 +30,6 @@ object RepositoryImpl : Repository {
     }
 
     override fun deleteNewsFromFavourite(news: NewsFromDb) {
-        db.newsDao().deleteNewsFromFavourite(news)
+        db.newsDao().deleteNewsFromFavourite(news.id)
     }
 }

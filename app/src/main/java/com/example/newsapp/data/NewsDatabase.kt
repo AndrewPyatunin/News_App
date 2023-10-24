@@ -1,5 +1,6 @@
 package com.example.newsapp.data
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room

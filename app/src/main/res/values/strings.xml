@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">News App</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="published_by">Published by %s</string>
+    <string name="top_news_description">%s</string>
+    <string name="top_news_title">%s</string>
 </resources>

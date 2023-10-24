@@ -1,8 +1,18 @@
 package com.example.newsapp.domain
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "favourite_news")
-data class NewsFromDb(val id: String, val article: Article) {
-
+data class NewsFromDb(
+    @PrimaryKey val id: String,
+    val sourceName: String,
+    val author: String?,
+    val title: String,
+    val description: String,
+    val url: String,
+    val urlToImage: String?,
+    val publishedAt: String,
+    val content: String?
+) {
 }
