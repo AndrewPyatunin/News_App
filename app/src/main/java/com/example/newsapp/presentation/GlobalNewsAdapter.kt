@@ -12,8 +12,8 @@ import com.example.newsapp.R
 import com.example.newsapp.domain.Article
 
 class GlobalNewsDiffCallback(
-    private val oldList: List<Article>,
-    private val newList: List<Article>
+    private val oldList: List<MyNews>,
+    private val newList: List<MyNews>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size
@@ -33,9 +33,9 @@ class GlobalNewsDiffCallback(
 
 }
 
-class GlobalNewsAdapter(listArticles: List<Article>) :
+class GlobalNewsAdapter(myNewsList: List<MyNews>) :
     RecyclerView.Adapter<GlobalNewsAdapter.ViewHolder>() {
-    private var listNews = listArticles
+    private var listNews = myNewsList.filter { it.title != "[Removed]" }
         set(newValue) {
             val diffCallback = GlobalNewsDiffCallback(field, newValue)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -43,7 +43,7 @@ class GlobalNewsAdapter(listArticles: List<Article>) :
             field = newValue
         }
 
-    val onItemClick: ((Article) -> Unit)? = null
+    var onItemClick: ((MyNews) -> Unit)? = null
 
     inner class ViewHolder(
         itemView: View,

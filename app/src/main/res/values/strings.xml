@@ -4,4 +4,8 @@
     <string name="published_by">Published by %s</string>
     <string name="top_news_description">%s</string>
     <string name="top_news_title">%s</string>
+    <string name="detail_source">Source: %s</string>
+    <string name="link_to_source">Link to source: %s</string>
+    <string name="open_favourites_news">Open favourites news</string>
+    <string name="add_to_favourite">Add to favourite</string>
 </resources>

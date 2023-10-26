@@ -28,7 +28,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 //    }
 
     fun getNewsFromInternet(path: String) {
-        val disposable = getNewsFromTopHeadlines.getNewsFromTopHeadlines(path)
+        val disposable = getNewsFromTopHeadlines.execute(path)
             .subscribeOn(Schedulers.io())
             .subscribe( object : Consumer<NewsFromTopHeadlines> {
                 override fun accept(t: NewsFromTopHeadlines) {
@@ -41,7 +41,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun getNewsFrom(url: String) {
-        val disposable = getNewsFromSources.getNewsFromSources(url)
+        val disposable = getNewsFromSources.execute(url)
             .subscribeOn(Schedulers.io())
             .subscribe( {
                 Log.d("MAIN_ACTIVITY_TEST1", it.sources.first().url)

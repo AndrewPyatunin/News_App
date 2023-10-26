@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.newsapp.presentation.DetailNewsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageViewListFavourite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:contentDescription="@string/open_favourites_news"
+            android:src="@drawable/list_f"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageViewFavourite"/>
+
+        <ImageView
+            android:id="@+id/imageViewFavourite"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="@string/add_to_favourite"
+            android:src="@drawable/starempty"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/textViewDetailDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="24 октября 2023, 12:30"/>
+        <TextView
+            android:id="@+id/textViewDetailTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="4dp"
+            android:textSize="28sp"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetailDate"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Japan Prime Minister argues about Kuril islands"/>
+
+        <ImageView
+            android:id="@+id/imageViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetailTitle"
+            tools:src="@tools:sample/avatars"/>
+
+        <TextView
+            android:id="@+id/textViewDetailSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textSize="16sp"
+            android:text="@string/detail_source"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageViewDetail"/>
+
+        <TextView
+            android:id="@+id/textViewDetailDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginHorizontal="8dp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetailSource"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Japan Prime Minister speak about critical factors in Russian-Japanese relationship"/>
+
+        <TextView
+            android:id="@+id/textViewDetailContext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetailDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Some text about Japan and Russia for our viewers"/>
+
+        <TextView
+            android:id="@+id/textViewDetailLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/link_to_source"
+            android:autoLink="web"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/textViewDetailContext"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,11 +1,10 @@
-package com.example.newsapp.domain
+package com.example.newsapp.presentation
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "favourite_news")
-data class NewsFromDb(
-    @PrimaryKey val id: String,
+@Parcelize
+data class MyNews(
     val sourceName: String,
     val author: String?,
     val title: String,
@@ -14,5 +13,5 @@ data class NewsFromDb(
     val urlToImage: String?,
     val publishedAt: String,
     val content: String?
-) {
+): Parcelable {
 }

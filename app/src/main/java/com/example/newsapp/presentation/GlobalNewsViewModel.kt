@@ -24,7 +24,7 @@ class GlobalNewsViewModel(application: Application) : AndroidViewModel(applicati
         repository.application = application
     }
     fun getNews(path: String) {
-        getNewsFromTopHeadlines.getNewsFromTopHeadlines(path)
+        getNewsFromTopHeadlines.execute(path)
             .subscribeOn(Schedulers.io())
             .subscribe({
                 _topNewsLiveData.postValue(it)

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentGlobalNewsBinding
 
 
@@ -42,15 +43,27 @@ class GlobalNewsFragment : Fragment() {
             }
             recyclerView.layoutManager =
                 LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
-            recyclerView.adapter = GlobalNewsAdapter(it.articles)
+            recyclerView.adapter = GlobalNewsAdapter(MapperFromArticleToMyNews.mapToListMyNews(it.articles))
+            adapter = recyclerView.adapter as GlobalNewsAdapter
+            adapter.onItemClick = {
+                launchFragment(DetailNewsFragment.getInstance(it))
+
+            }
         }
         viewModel.errorLiveData.observe(viewLifecycleOwner) {
             Toast.makeText(this.requireContext(), it.message, Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun launchFragment(fragment: Fragment) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view_tag, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         binding = null
     }
 
