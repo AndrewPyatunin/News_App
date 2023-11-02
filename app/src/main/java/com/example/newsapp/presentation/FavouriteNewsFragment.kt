@@ -8,15 +8,19 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsapp.NewsApp
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentFavouriteNewsBinding
+import javax.inject.Inject
 
 class FavouriteNewsFragment: Fragment() {
-
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
     private var binding: FragmentFavouriteNewsBinding? = null
-    private val viewModel by lazy { ViewModelProvider(this)[FavouriteNewsViewModel::class.java] }
+    private val viewModel by lazy { ViewModelProvider(this, viewModelFactory)[FavouriteNewsViewModel::class.java] }
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: GlobalNewsAdapter
+    private val component by lazy { (this.requireActivity().application as NewsApp).component.fragmentComponent() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +28,7 @@ class FavouriteNewsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFavouriteNewsBinding.inflate(inflater, container, false)
+        component.inject(this)
         return binding?.root
     }
 

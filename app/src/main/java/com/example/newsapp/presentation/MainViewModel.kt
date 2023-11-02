@@ -10,16 +10,10 @@ import io.reactivex.rxjava3.functions.Consumer
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
-    private val repository = RepositoryImpl
+    lateinit var repository: RepositoryImpl
     private val getNewsFromTopHeadlines = GetNewFromTopHeadlinesUseCase(repository)
     private val getNewsFromSources = GetNewsFromSourcesUseCase(repository)
     private val compositeDisposable = CompositeDisposable()
-    init {
-        applicationToRepository(application)
-    }
-    private fun applicationToRepository(application: Application) {
-        repository.application = application
-    }
 
 //    fun getNewsFromTopHeadlines(url: String): Single<NewsFromTopHeadlines> {
 //        return Single.fromCallable {

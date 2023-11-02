@@ -1,5 +1,6 @@
 package com.example.newsapp.presentation
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,23 +10,33 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsapp.NewsApp
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentGlobalNewsBinding
+import com.example.newsapp.di.DaggerNewsComponent
+import com.example.newsapp.di.NewsComponent
+import javax.inject.Inject
 
 
 class GlobalNewsFragment : Fragment() {
 
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private var binding: FragmentGlobalNewsBinding? = null
-    private val viewModel by lazy { ViewModelProvider(this)[GlobalNewsViewModel::class.java] }
+    private val viewModel by lazy { ViewModelProvider(this, viewModelFactory)[GlobalNewsViewModel::class.java] }
     private lateinit var adapter: GlobalNewsAdapter
     private lateinit var recyclerView: RecyclerView
 
+    private val component by lazy { (this.requireActivity().application as NewsApp).component.fragmentComponent() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentGlobalNewsBinding.inflate(inflater, container, false)
+        component.inject(this)
         // Inflate the layout for this fragment
         return binding?.root
     }
@@ -43,7 +54,7 @@ class GlobalNewsFragment : Fragment() {
             }
             recyclerView.layoutManager =
                 LinearLayoutManager(this.requireContext(), LinearLayoutManager.VERTICAL, false)
-            recyclerView.adapter = GlobalNewsAdapter(MapperFromArticleToMyNews.mapToListMyNews(it.articles))
+            recyclerView.adapter = GlobalNewsAdapter(MapperFromArticleToMyNews().mapToListMyNews(it.articles))
             adapter = recyclerView.adapter as GlobalNewsAdapter
             adapter.onItemClick = {
                 launchFragment(DetailNewsFragment.getInstance(it))

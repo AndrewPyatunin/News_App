@@ -1,47 +1,52 @@
 package com.example.newsapp.presentation
 
-import android.app.Application
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.newsapp.data.RepositoryImpl
-import com.example.newsapp.domain.*
+import androidx.lifecycle.ViewModel
+import com.example.newsapp.di.DaggerNewsComponent
+import com.example.newsapp.domain.AddNewsToFavouriteUseCase
+import com.example.newsapp.domain.DeleteNewsFromFavouriteUseCase
+import com.example.newsapp.domain.GetNewsFromFavouriteUseCase
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class DetailNewsViewModel(application: Application): AndroidViewModel(application) {
-    private val repository = RepositoryImpl
-    private val getNewsFromFavouriteUseCase = GetNewsFromFavouriteUseCase(repository)
-    private val deleteNewsFromFavouriteUseCase = DeleteNewsFromFavouriteUseCase(repository)
-    private val addNewsToFavouriteUseCase = AddNewsToFavouriteUseCase(repository)
+class DetailNewsViewModel @Inject constructor(
+    private val getNewsFromFavouriteUseCase: GetNewsFromFavouriteUseCase,
+    private val deleteNewsFromFavouriteUseCase: DeleteNewsFromFavouriteUseCase,
+    private val addNewsToFavouriteUseCase: AddNewsToFavouriteUseCase,
+    ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
     private var _favouritesLiveData = MutableLiveData<List<MyNews>>()
     val favouritesLiveData: LiveData<List<MyNews>> = _favouritesLiveData
 
+    private var _resultLiveData = MutableLiveData<String>()
+    val resultLiveData: LiveData<String> = _resultLiveData
+
     init {
         getFavouriteNews()
     }
+
     fun getFavouriteNews() {
         getNewsFromFavouriteUseCase.execute()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                _favouritesLiveData.postValue(MapperFromNewsFromDbToMyNews.mapToListMyNews(it))
-            },{
-                Toast.makeText(getApplication(), it.message, Toast.LENGTH_SHORT).show()
+                _favouritesLiveData.postValue(MapperFromNewsFromDbToMyNews().mapToListMyNews(it))
+            }, {
+                _resultLiveData.postValue(it.message)
             })
     }
 
     fun deleteNewsFromFavourite(myNews: MyNews) {
         val disposable = deleteNewsFromFavouriteUseCase.execute(myNews)
-        .subscribeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Toast.makeText(getApplication(), "Удаление прошло успешно!", Toast.LENGTH_SHORT).show()
+                _resultLiveData.postValue("Удаление прошло успешно!")
             }, {
-                Toast.makeText(getApplication(), it.localizedMessage, Toast.LENGTH_SHORT).show()
+                _resultLiveData.postValue(it.message)
             })
         compositeDisposable.add(disposable)
     }
@@ -52,9 +57,9 @@ class DetailNewsViewModel(application: Application): AndroidViewModel(applicatio
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                Toast.makeText(getApplication(), "Добавление прошло успешно!", Toast.LENGTH_SHORT).show()
+                _resultLiveData.postValue("Добавление прошло успешно!")
             }, {
-                Toast.makeText(getApplication(), it.localizedMessage, Toast.LENGTH_SHORT).show()
+                _resultLiveData.postValue(it.message)
             })
         compositeDisposable.add(disposable)
     }

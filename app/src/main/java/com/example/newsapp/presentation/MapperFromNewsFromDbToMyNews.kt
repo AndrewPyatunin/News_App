@@ -2,7 +2,7 @@ package com.example.newsapp.presentation
 
 import com.example.newsapp.domain.NewsFromDb
 
-object MapperFromNewsFromDbToMyNews {
+class MapperFromNewsFromDbToMyNews {
     fun mapToMyNews(newsFromDb: NewsFromDb): MyNews {
         return MyNews(
             newsFromDb.sourceName,
