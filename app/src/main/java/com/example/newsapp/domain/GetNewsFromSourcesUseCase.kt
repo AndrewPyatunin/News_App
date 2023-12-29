@@ -1,7 +1,10 @@
 package com.example.newsapp.domain
 
-class GetNewsFromSourcesUseCase(private val repository: Repository) {
-    fun getNewsFromSources(url: String): NewsFromSources {
+import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
+
+class GetNewsFromSourcesUseCase @Inject constructor(private val repository: Repository) {
+    fun execute(url: String): Single<NewsFromSources> {
         return repository.getNewsFromSources(url)
     }
 }

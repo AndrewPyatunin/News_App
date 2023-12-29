@@ -1,33 +1,44 @@
 package com.example.newsapp.data
 
-import android.app.Application
-import com.example.newsapp.domain.NewsFromDb
 import com.example.newsapp.domain.NewsFromSources
 import com.example.newsapp.domain.NewsFromTopHeadlines
 import com.example.newsapp.domain.Repository
+import com.example.newsapp.domain.MyNews
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-object RepositoryImpl : Repository {
-    private val context = Application()
-    private val db = NewsDatabase.getInstance(context)
-    private val PATH = "https://newsapi.org/v2/top-headlines"
+class RepositoryImpl @Inject constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val mapper: MapperToDb
+) : Repository {
 
-    override fun getNewsFromTopHeadlines(url: String): NewsFromTopHeadlines {
-        return ApiFactory.apiService.getDataFrom(url)
+    override fun getNewsFromTopHeadlines(url: String): Single<NewsFromTopHeadlines> {
+        return remoteDataSource.getNews(url)
     }
 
-    override fun getNewsFromFavourite(): List<NewsFromDb> {
-        return db.newsDao().getFavouriteNews()
+    override fun getNewsFromFavourite(): Flowable<List<MyNews>> {
+        return localDataSource.getNewsFromDb().map {
+            mapper.mapListToMyNews(it)
+        }
     }
 
-    override fun getNewsFromSources(url: String): NewsFromSources {
+    override fun getNewsFromSources(url: String): Single<NewsFromSources> {
         return ApiFactory.apiService.getDataFromSomeSources(url)
     }
 
-    override fun addNewsToFavourite(newsFromDb: NewsFromDb) {
-        db.newsDao().addNewsToFavourite(newsFromDb)
+    override fun addNewsToFavourite(myNews: MyNews): Completable {
+        return localDataSource.addNewsToDb(map(myNews))
     }
 
-    override fun deleteNewsFromFavourite(news: NewsFromDb) {
-        db.newsDao().deleteNewsFromFavourite(news)
+    override fun deleteNewsFromFavourite(myNews: MyNews): Completable {
+        return localDataSource.deleteNewsFromDb(map(myNews))
     }
+
+    private fun map(myNews: MyNews): NewsFromDb {
+        return mapper.mapToDb(myNews)
+    }
+
 }

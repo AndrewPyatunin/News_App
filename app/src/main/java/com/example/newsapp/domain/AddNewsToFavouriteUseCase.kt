@@ -1,8 +1,12 @@
 package com.example.newsapp.domain
 
-class AddNewsToFavouriteUseCase(private val repository: Repository) {
-    fun addNewsToFavourite(news: NewsFromDb) {
-        repository.addNewsToFavourite(news)
+import io.reactivex.rxjava3.core.Completable
+import javax.inject.Inject
+
+class AddNewsToFavouriteUseCase @Inject constructor(private val repository: Repository) {
+
+    fun execute(news: MyNews): Completable {
+        return repository.addNewsToFavourite(news)
     }
 
 }

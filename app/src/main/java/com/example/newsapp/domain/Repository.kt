@@ -1,14 +1,18 @@
 package com.example.newsapp.domain
 
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
+
 interface Repository {
 
-    fun getNewsFromTopHeadlines(url: String): NewsFromTopHeadlines
+    fun getNewsFromTopHeadlines(url: String): Single<NewsFromTopHeadlines>
 
-    fun getNewsFromFavourite(): List<NewsFromDb>
+    fun getNewsFromFavourite(): Flowable<List<MyNews>>
 
-    fun getNewsFromSources(url: String): NewsFromSources
+    fun getNewsFromSources(url: String): Single<NewsFromSources>
 
-    fun addNewsToFavourite(newsFromDb: NewsFromDb)
+    fun addNewsToFavourite(myNews: MyNews): Completable
 
-    fun deleteNewsFromFavourite(news: NewsFromDb)
+    fun deleteNewsFromFavourite(myNews: MyNews): Completable
 }

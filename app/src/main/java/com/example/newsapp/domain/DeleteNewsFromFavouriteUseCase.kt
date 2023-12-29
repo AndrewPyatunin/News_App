@@ -1,7 +1,11 @@
 package com.example.newsapp.domain
 
-class DeleteNewsFromFavouriteUseCase(private val repository: Repository) {
-    fun deleteNewsFromFavourite(newsFromDb: NewsFromDb) {
-        repository.deleteNewsFromFavourite(newsFromDb)
+import io.reactivex.rxjava3.core.Completable
+import javax.inject.Inject
+
+class DeleteNewsFromFavouriteUseCase @Inject constructor(private val repository: Repository) {
+
+    fun execute(myNews: MyNews): Completable {
+        return repository.deleteNewsFromFavourite(myNews)
     }
 }
