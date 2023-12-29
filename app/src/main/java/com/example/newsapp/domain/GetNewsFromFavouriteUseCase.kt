@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class GetNewsFromFavouriteUseCase @Inject constructor(private val repository: Repository) {
 
-    fun execute(): Flowable<List<NewsFromDb>> {
+    fun execute(): Flowable<List<MyNews>> {
         return repository.getNewsFromFavourite()
     }
 }

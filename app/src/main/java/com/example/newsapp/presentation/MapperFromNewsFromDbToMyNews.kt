@@ -1,6 +1,7 @@
 package com.example.newsapp.presentation
 
-import com.example.newsapp.domain.NewsFromDb
+import com.example.newsapp.data.NewsFromDb
+import com.example.newsapp.domain.MyNews
 
 class MapperFromNewsFromDbToMyNews {
     fun mapToMyNews(newsFromDb: NewsFromDb): MyNews {

@@ -1,7 +1,6 @@
 package com.example.newsapp.data
 
 import androidx.room.*
-import com.example.newsapp.domain.NewsFromDb
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 

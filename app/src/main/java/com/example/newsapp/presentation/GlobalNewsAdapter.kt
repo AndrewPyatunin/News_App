@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newsapp.R
-import com.example.newsapp.domain.Article
+import com.example.newsapp.domain.MyNews
 
 class GlobalNewsDiffCallback(
     private val oldList: List<MyNews>,

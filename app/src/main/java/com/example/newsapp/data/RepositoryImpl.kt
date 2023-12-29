@@ -1,10 +1,9 @@
 package com.example.newsapp.data
 
-import com.example.newsapp.domain.NewsFromDb
 import com.example.newsapp.domain.NewsFromSources
 import com.example.newsapp.domain.NewsFromTopHeadlines
 import com.example.newsapp.domain.Repository
-import com.example.newsapp.presentation.MyNews
+import com.example.newsapp.domain.MyNews
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
@@ -13,15 +12,17 @@ import javax.inject.Inject
 class RepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val mapperToDb: MapperToDb
+    private val mapper: MapperToDb
 ) : Repository {
 
     override fun getNewsFromTopHeadlines(url: String): Single<NewsFromTopHeadlines> {
         return remoteDataSource.getNews(url)
     }
 
-    override fun getNewsFromFavourite(): Flowable<List<NewsFromDb>> {
-        return localDataSource.getNewsFromDb()
+    override fun getNewsFromFavourite(): Flowable<List<MyNews>> {
+        return localDataSource.getNewsFromDb().map {
+            mapper.mapListToMyNews(it)
+        }
     }
 
     override fun getNewsFromSources(url: String): Single<NewsFromSources> {
@@ -37,7 +38,7 @@ class RepositoryImpl @Inject constructor(
     }
 
     private fun map(myNews: MyNews): NewsFromDb {
-        return mapperToDb.mapToDb(myNews)
+        return mapper.mapToDb(myNews)
     }
 
 }

@@ -1,10 +1,10 @@
 package com.example.newsapp.data
 
-import android.app.Application
-import com.example.newsapp.domain.NewsFromDb
-import com.example.newsapp.presentation.MyNews
+import com.example.newsapp.domain.MyNews
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.FlowableTransformer
+import org.reactivestreams.Publisher
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(

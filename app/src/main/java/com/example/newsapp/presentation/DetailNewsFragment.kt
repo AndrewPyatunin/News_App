@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.newsapp.NewsApp
 import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentDetailNewsBinding
+import com.example.newsapp.domain.MyNews
 import javax.inject.Inject
 
 class DetailNewsFragment : Fragment() {
